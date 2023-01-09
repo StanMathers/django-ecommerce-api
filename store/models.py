@@ -2,13 +2,13 @@ from django.db import models
 from ecommerce_api.settings import AUTH_USER_MODEL
 
 # Create your models here.
-class Categories(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
 
-class Products(models.Model):
+class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     unit_price = models.PositiveBigIntegerField()
@@ -19,15 +19,15 @@ class Products(models.Model):
     def __str__(self):
         return self.name
 
-class ProductsCategory(models.Model):
+class ProductCategory(models.Model):
     # Assosiation table
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.product.name} - {self.category.name}"
 
 
-class Images(models.Model):
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+class Image(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="media_root/")
