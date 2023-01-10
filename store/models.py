@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from ecommerce_api.settings import AUTH_USER_MODEL
 
@@ -14,6 +15,7 @@ class Product(models.Model):
     unit_price = models.PositiveBigIntegerField()
     discount = models.PositiveBigIntegerField(blank=True, null=True)
     stock = models.PositiveBigIntegerField(blank=True, null=True)
+    added = models.DateField(auto_now_add=True)
     owner = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.SET_DEFAULT, default=1)
 
     def __str__(self):

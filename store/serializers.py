@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Product, ProductCategory
+from custom_user.models import Customer
 
 
 class ProductCategorySerializer(serializers.ModelSerializer):
@@ -10,20 +11,20 @@ class ProductCategorySerializer(serializers.ModelSerializer):
         fields = ["id", "category"]
 
 
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        exclude = ["password", "groups", "user_permissions"]
+
+
 class ProductSerializer(serializers.ModelSerializer):
-    category_details = ProductCategorySerializer(
-        read_only=True, many=True, source="productcategory_set"
-    )
 
     class Meta:
         model = Product
-        fields = [
-            "id",
-            "name",
-            "description",
-            "unit_price",
-            "discount",
-            "stock",
-            "category_details",
-        ]
+        fields="__all__"
         read_only_fields = ["category_details"]
+
+    category_details = ProductCategorySerializer(
+        read_only=True, many=True, source="productcategory_set"
+    )
+    owner = CustomerSerializer(read_only=True)
