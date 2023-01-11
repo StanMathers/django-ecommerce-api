@@ -9,10 +9,14 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Product(models.Model):
+    CURRENCY_CHOICES = [("USD", "USD"), ("GEL", "GEL"), ("EUR", "EUR")]
+
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     unit_price = models.PositiveBigIntegerField()
+    currency = models.CharField(max_length=3, default="GEL", choices=CURRENCY_CHOICES)
     discount = models.PositiveBigIntegerField(blank=True, null=True)
     stock = models.PositiveBigIntegerField(blank=True, null=True)
     added = models.DateField(auto_now_add=True)
@@ -20,6 +24,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class ProductCategory(models.Model):
     # Assosiation table
